@@ -2,3 +2,6 @@
 timetable-server.iml
 build
 target
+out
+.vertx
+docker/out

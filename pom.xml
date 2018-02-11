@@ -4,25 +4,78 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cn.ericweb</groupId>
-    <artifactId>timetable.server</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>cn.ericweb.timetable</groupId>
+    <artifactId>server</artifactId>
+    <version>0.0.1</version>
+
+    <properties>
+        <vertx.version>3.5.0</vertx.version>
+
+        <package.path.output>docker/out</package.path.output>
+        <output.name>timetable-server</output.name>
+
+        <build.encoding>utf-8</build.encoding>
+
+        <docker.plugin.version>1.3.5</docker.plugin.version>
+        <docker.repo>ek1o/uestc-timetable-server</docker.repo>
+    </properties>
+
     <build>
+        <finalName>${output.name}</finalName>
         <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <outputDirectory>${package.path.output}</outputDirectory>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>cn.ek1o.timetable.server.TimetableServer</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                    <encoding>${build.encoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>${package.path.output}</outputDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>${docker.plugin.version}</version>
+                <configuration>
+                    <repository>${docker.repo}</repository>
+                    <tag>${project.version}</tag>
+                    <buildArgs>
+                        <JAR_FILE_NAME>${project.build.finalName}.jar</JAR_FILE_NAME>
+                    </buildArgs>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
-    <properties>
-        <vertx.version>3.5.0</vertx.version>
-    </properties>
 
     <dependencies>
         <!--Vert.X-->
