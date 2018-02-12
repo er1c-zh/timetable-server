@@ -17,7 +17,7 @@ public class TimetableServer {
                         request.response().putHeader(HttpHeaderNames.CONTENT_ENCODING, "UTF-8").end();
                     }
                 })
-                .requestHandler(request -> request.response().end("<html><head><title>title</title></head><body><h1>中文测试</h1></body><html>")).listen(8080);
+                .requestHandler(request -> request.response().end("<html><head><title>title</title></head><body><h1>中文测试</h1></body><html>")).listen(1220);
         Vertx.vertx().close();
     }
 }
