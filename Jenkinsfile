@@ -10,8 +10,14 @@ node {
     }
 
     stage('deploy to docker') {
-        sh 'docker rm -f uestc-timetable-server'
-        sh 'sleep 1'
-        sh 'dcoker run -d -p 1220:1220 --name uestc-timetable-server ek1o/uestc-timetable-server:latest'
+        sh '''#!/bin/sh
+
+        container_id=$(docker ps --all | grep uestc-timetable-server | awk \'{print $1}\')
+
+        if [ -n "$container_id" ]; then
+            docker rm -f ${container_id}
+        fi
+        sleep 1
+        docker run -d -p 1220:1220 --name uestc-timetable-server ek1o/uestc-timetable-server:latest'''
     }
 }
