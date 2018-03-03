@@ -78,7 +78,8 @@
                 <configuration>
                     <contextDirectory>docker</contextDirectory>
                     <repository>${docker.repo}</repository>
-                    <tag>${project.version}</tag>
+                    <!--<tag>${project.version}</tag>-->
+                    <tag>latest</tag>
                     <buildArgs>
                         <JAR_FILE_NAME>${project.build.finalName}.jar</JAR_FILE_NAME>
                     </buildArgs>
