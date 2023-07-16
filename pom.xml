@@ -9,7 +9,7 @@
     <version>0.0.1</version>
 
     <properties>
-        <vertx.version>3.5.0</vertx.version>
+        <vertx.version>3.5.4</vertx.version>
 
         <package.path.output>docker/out</package.path.output>
         <output.name>timetable-server</output.name>
